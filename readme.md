@@ -17,6 +17,9 @@ sudo ./inject /path/to/libexample.so 1234
 ```
 the injector will attach to the process, call `dlopen` with the specified library path, and detach from the process. if successful, it will print `[*] library injected successfully!` to the console.
 
+## docs
+the documentation of this tool is [here](https://github.com/meth1337/soinjector/wiki).
+
   ---
   ```
   [x0@0x0-80tx ~]$ sudo ./injector example.so 1076
