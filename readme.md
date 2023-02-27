@@ -1,6 +1,11 @@
 <p allign="center">
   <img src="img/akane.jpg">
   <h1>soinjector</h1>
+  <div>
+    <img src="https://img.shields.io/badge/license-unlicense-green">
+    <img src="https://img.shields.io/github/languages/code-size/meth1337/soinjector">
+    <img src="https://img.shields.io/badge/language-C-lightgrey">
+  </div>
 </p>
 
 this is a simple linux library injector that allows you to inject a shared library into a running process. it uses `ptrace` to attach to the target process, call `dlopen` with the specified library path, and detach from the process.
