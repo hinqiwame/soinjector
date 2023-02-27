@@ -10,7 +10,7 @@ to use the injector, you must have root privileges. you can run the program with
 ```
 sudo ./injector <lib_path> <pid>
 ```
-where <lib_path> is the path to the shared library you want to inject and <pid> is the process ID of the target process.<br><br>
+where `<lib_path>` is the path to the shared library you want to inject and `<pid>` is the process ID of the target process.<br><br>
 example:
 ```
 sudo ./inject /path/to/libexample.so 1234
