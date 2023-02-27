@@ -11,4 +11,4 @@ example:
 ```
 sudo ./inject /path/to/libexample.so 1234
 ```
-the injector will attach to the process, call dlopen with the specified library path, and detach from the process. if successful, it will print `[*] library injected successfully!` to the console.
+the injector will attach to the process, call `dlopen` with the specified library path, and detach from the process. if successful, it will print `[*] library injected successfully!` to the console.
