@@ -12,3 +12,12 @@ example:
 sudo ./inject /path/to/libexample.so 1234
 ```
 the injector will attach to the process, call `dlopen` with the specified library path, and detach from the process. if successful, it will print `[*] library injected successfully!` to the console.
+
+  ---
+  ```
+  [x0@0x0-80tx ~]$ sudo ./injector example.so 1076
+  [sudo] password for x0:
+  [*] dlopen memory address: 0x7fb735064cd0
+  [*] found library path: example.so
+  [*] library injected successfully!
+  ```
