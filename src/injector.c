@@ -14,7 +14,7 @@
 
 int main(int argc, char** argv) {
     // sudo check!
-	if (geteuid() != 0) {
+    if (geteuid() != 0) {
         printf("[!] please run this program as sudo!\n");
         exit(EXIT_FAILURE);
     }
@@ -52,22 +52,26 @@ int main(int argc, char** argv) {
     strncpy((char*) lib_path_addr, lib_path, BUF_SIZE);
     printf("[*] found library path: %s\n", (char*) lib_path_addr);
 
-    // call dlopen in the target process with the library path as an argument
+    // get the register values from the target process
     struct user_regs_struct regs64;
-    if (ptrace(PTRACE_SETREGS, pid, 0, &regs64) == -1) {
+    if (ptrace(PTRACE_GETREGS, pid, 0, &regs64) == -1) {
         perror("[!] failed to get register values from target process");
         exit(EXIT_FAILURE);
     }
 
+    // set the arguments for the dlopen function call in the target process
     regs64.rdi = (unsigned long long) lib_path_addr;
+    regs64.rsi = RTLD_NOW;
     regs64.rip = (unsigned long long) dlopen_addr;
-    if (ptrace(PTRACE_SETREGS, pid, NULL, &regs64) == -1) {
+
+    // set the register values in the target process
+    if (ptrace(PTRACE_SETREGS, pid, 0, &regs64) == -1) {
         perror("[!] failed to set register values in target process");
         exit(EXIT_FAILURE);
     }
 
     // continue execution of the target process
-    if (ptrace(PTRACE_CONT, pid, NULL, NULL) == -1) {
+    if (ptrace(PTRACE_CONT, pid, 0, 0) == -1) {
         perror("[!] failed to continue target process");
         exit(EXIT_FAILURE);
     }
