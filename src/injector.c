@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
     int pid = atoi(argv[2]);
 
     // attach to the target process
-    if (ptrace(PTRACE_ATTACH, pid, NULL, NULL) == -1) {
+    if (ptrace(PTRACE_ATTACH, pid, 0, 0) == -1) {
         perror("[!] failed to attach to process");
         exit(EXIT_FAILURE);
     }
@@ -53,15 +53,15 @@ int main(int argc, char** argv) {
     printf("[*] found library path: %s\n", (char*) lib_path_addr);
 
     // call dlopen in the target process with the library path as an argument
-    struct user_regs_struct regs;
-    if (ptrace(PTRACE_GETREGS, pid, NULL, &regs) == -1) {
+    struct user_regs_struct regs64;
+    if (ptrace(PTRACE_SETREGS, pid, 0, &regs64) == -1) {
         perror("[!] failed to get register values from target process");
         exit(EXIT_FAILURE);
     }
 
-    regs.rdi = (unsigned long) lib_path_addr;
-    regs.rip = (unsigned long) dlopen_addr;
-    if (ptrace(PTRACE_SETREGS, pid, NULL, &regs) == -1) {
+    regs64.rdi = (unsigned long long) lib_path_addr;
+    regs64.rip = (unsigned long long) dlopen_addr;
+    if (ptrace(PTRACE_SETREGS, pid, NULL, &regs64) == -1) {
         perror("[!] failed to set register values in target process");
         exit(EXIT_FAILURE);
     }
