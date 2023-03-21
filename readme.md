@@ -33,3 +33,6 @@ the documentation of this tool is [here](https://github.com/meth1337/soinjector/
   [*] found library path: example.so
   [*] library injected successfully!
   ```
+
+
+### my telegram [channel](https://t.me/quasquaswexinvoke)<3
