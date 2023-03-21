@@ -11,6 +11,13 @@
 #include <dlfcn.h>
 
 #define BUF_SIZE 256
+#define RTLD_NEXT ((void *) -1l)
+
+// better error handler
+void die(char* message) {
+    perror(message);
+    exit(EXIT_FAILURE);
+}
 
 int main(int argc, char** argv) {
     // sudo check!
@@ -30,22 +37,23 @@ int main(int argc, char** argv) {
 
     // attach to the target process
     if (ptrace(PTRACE_ATTACH, pid, 0, 0) == -1) {
-        perror("[!] failed to attach to process");
-        exit(EXIT_FAILURE);
+        die("[!] failed to attach to process");
     }
 
     // wait for the process to stop
     waitpid(pid, NULL, 0);
 
     // get the address of the dlopen function in the target process
-    void* dlopen_addr = (void*) dlopen;
+    void* dlopen_addr = dlsym(RTLD_NEXT, "dlopen");
+    if (dlopen_addr == NULL) {
+        die("[!] failed to locate dlopen function in target process");
+    }
     printf("[*] dlopen memory address: %p\n", dlopen_addr);
 
     // allocate space in the target process for the path to the library
     void* lib_path_addr = (void*) calloc(BUF_SIZE, sizeof(char));
     if (lib_path_addr == NULL) {
-        perror("[!] failed to allocate memory in target process");
-        exit(EXIT_FAILURE);
+        die("[!] failed to allocate memory in target process");
     }
 
     // write the library path to the allocated space in the target process
@@ -55,8 +63,7 @@ int main(int argc, char** argv) {
     // get the register values from the target process
     struct user_regs_struct regs64;
     if (ptrace(PTRACE_GETREGS, pid, 0, &regs64) == -1) {
-        perror("[!] failed to get register values from target process");
-        exit(EXIT_FAILURE);
+        die("[!] failed to get register values from target process");
     }
 
     // set the arguments for the dlopen function call in the target process
@@ -66,14 +73,12 @@ int main(int argc, char** argv) {
 
     // set the register values in the target process
     if (ptrace(PTRACE_SETREGS, pid, 0, &regs64) == -1) {
-        perror("[!] failed to set register values in target process");
-        exit(EXIT_FAILURE);
+        die("[!] failed to set register values in target process");
     }
 
     // continue execution of the target process
     if (ptrace(PTRACE_CONT, pid, 0, 0) == -1) {
-        perror("[!] failed to continue target process");
-        exit(EXIT_FAILURE);
+        die("[!] failed to continue target process");
     }
 
     // wait for the process to stop again
@@ -81,8 +86,7 @@ int main(int argc, char** argv) {
 
     // detach from the target process
     if (ptrace(PTRACE_DETACH, pid, NULL, NULL) == -1) {
-        perror("[!] failed to detach from target process");
-        exit(EXIT_FAILURE);
+        die("[!] failed to detach from target process");
     }
 
     printf("[*] library injected successfully!\n");
