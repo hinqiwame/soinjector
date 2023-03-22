@@ -35,6 +35,16 @@ int main(int argc, char** argv) {
     strncpy(lib_path, argv[1], BUF_SIZE);
     int pid = atoi(argv[2]);
 
+	// lib path check
+    if (access(lib_path, F_OK) == -1) {
+        die("[!] invalid library path");
+    }
+
+	// pid check
+    if (kill(pid, 0) == -1) {
+        die("[!] invalid pid");
+    }
+
     // attach to the target process
     if (ptrace(PTRACE_ATTACH, pid, 0, 0) == -1) {
         die("[!] failed to attach to process");
