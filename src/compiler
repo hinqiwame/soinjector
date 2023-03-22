@@ -1,0 +1,3 @@
+#!/bin/bash
+gcc -o injector injector.c -ldl -Wall
+mv injector build 
