@@ -35,12 +35,12 @@ int main(int argc, char** argv) {
     strncpy(lib_path, argv[1], BUF_SIZE);
     int pid = atoi(argv[2]);
 
-	// lib path check
+    // lib path check
     if (access(lib_path, F_OK) == -1) {
         die("[!] invalid library path");
     }
 
-	// pid check
+    // pid check
     if (kill(pid, 0) == -1) {
         die("[!] invalid pid");
     }
