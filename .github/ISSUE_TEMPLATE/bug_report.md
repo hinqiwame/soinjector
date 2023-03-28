@@ -1,5 +1,5 @@
 ---
-name: bug report 
+name: bug report [bug]
 about: create a report to help improving the  script
 
 ---
