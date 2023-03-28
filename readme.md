@@ -29,9 +29,10 @@ the documentation of this tool is [here](https://github.com/meth1337/soinjector/
   ```
   [x0@0x0-80tx ~]$ sudo ./injector example.so 1076
   [sudo] password for x0:
-  [*] dlopen memory address: 0x7fb735064cd0
-  [*] found library path: example.so
+  [*] dlopen memory address: 0x7f56ae394700
+  [*] found library path: libexample.so
   [*] library injected successfully!
+  [*] resumed the target process: 1076
   ```
 
 
