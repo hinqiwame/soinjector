@@ -93,13 +93,21 @@ int main(int argc, char** argv) {
 
     // wait for the process to stop again
     waitpid(pid, NULL, 0);
-
-    // detach from the target process
+	
+	// detach from the target process
     if (ptrace(PTRACE_DETACH, pid, NULL, NULL) == -1) {
         die("[!] failed to detach from target process");
     }
 
     printf("[*] library injected successfully!\n");
 
+    // restore the target process's state
+    if (kill(pid, SIGCONT) == -1) {
+        printf("[!] failed to resume the target process: %d\n", pid);
+    } else {
+        printf("[*] resumed the target process: %d\n", pid);
+    }
+
     return 0;
 }
+
