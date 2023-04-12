@@ -1,4 +1,4 @@
-<p allign="center">
+<p align="center">
   <img src="img/akane.jpg">
   <h1>Soinjector</h1>
   <div>
@@ -9,21 +9,27 @@
 </p>
 
 <p>This is a simple Linux library injector that allows you to inject a shared library into a running process. It uses <code>ptrace</code> to attach to the target process, call <code>dlopen</code> with the specified library path, and detach from the process.</p>
-<h2 id="download">Download</h2>
+
+<h2>Download</h2>
 <p>You can get the latest stable binary from <a href="https://github.com/meth1337/soinjector/releases/latest">here</a> (filename: <code>injector</code>)</p>
-<h2 id="usage">Usage</h2>
+
+<h2>Usage</h2>
 <p>To use the injector, you must have root privileges. You can run the program with the following command:</p>
-<pre><code>sudo ./injector <span class="hljs-tag">&lt;<span class="hljs-name">lib_path</span>&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">pid</span>&gt;</span>
-</code></pre><p>Where <code>&lt;lib_path&gt;</code> is the path to the shared library you want to inject and <code>&lt;pid&gt;</code> is the process ID of the target process.<br><br>
-Example:</p>
-<pre><code>sudo .<span class="hljs-regexp">/inject /</span>path<span class="hljs-regexp">/to/</span>libexample.so <span class="hljs-number">1234</span>
-</code></pre><p>The injector will attach to the process, call <code>dlopen</code> with the specified library path, and detach from the process. If successful, it will print <code>[*] Library injected successfully!</code> to the console.</p>
-<h2 id="docs">Docs</h2>
+<pre><code>sudo ./injector &lt;lib_path&gt; &lt;pid&gt;</code></pre>
+<p>Where <code>&lt;lib_path&gt;</code> is the path to the shared library you want to inject and <code>&lt;pid&gt;</code> is the process ID of the target process.</p>
+<p>Example:</p>
+<pre><code>sudo ./inject /path/to/libexample.so 1234</code></pre>
+<p>The injector will attach to the process, call <code>dlopen</code> with the specified library path, and detach from the process. If successful, it will print <code>[*] Library injected successfully!</code> to the console.</p>
+
+<h2>Docs</h2>
 <p>The documentation of this tool is <a href="https://github.com/meth1337/soinjector/wiki">here</a>.</p>
+
 <hr>
-<pre><code>  [<span class="hljs-name">x0@0x0-80tx</span> ~]$ sudo ./injector libexample.so <span class="hljs-number">1952</span>
-  [<span class="hljs-name"><span class="hljs-builtin-name">*</span></span>] Dlopen memory address: <span class="hljs-number">0</span>x7fa06a5b0700
-  [<span class="hljs-name"><span class="hljs-builtin-name">*</span></span>] Found library path: libexample.so
-  [<span class="hljs-name"><span class="hljs-builtin-name">*</span></span>] Library injected successfully!
-  [<span class="hljs-name"><span class="hljs-builtin-name">*</span></span>] Resumed the target process: <span class="hljs-number">1952</span>
-</code></pre><h3 id="my-telegram-channel-https-t-me-quasquaswexinvoke-3">My Telegram <a href="https://t.me/quasquaswexinvoke">channel</a>&lt;3</h3>
+<pre><code>[x0@0x0-80tx ~]$ sudo ./injector libexample.so 1952
+[*] Dlopen memory address: 0x7fa06a5b0700
+[*] Found library path: libexample.so
+[*] Library injected successfully!
+[*] Resumed the target process: 1952
+</code></pre>
+
+<h3>My Telegram <a href="https://t.me/quasquaswexinvoke">channel</a> &lt;3</h3>
