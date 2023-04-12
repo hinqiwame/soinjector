@@ -8,22 +8,25 @@
   </div>
 </p>
 
-this is a simple linux library injector that allows you to inject a shared library into a running process. it uses `ptrace` to attach to the target process, call `dlopen` with the specified library path, and detach from the process.
+This is a simple Linux library injector that allows you to inject a shared library into a running process. It uses `ptrace` to attach to the target process, call `dlopen` with the specified library path, and detach from the process.
 
-## usage
-to use the injector, you must have root privileges. you can run the program with the following command:
+## Download
+You can get the latest stable binary from [here](https://github.com/meth1337/soinjector/releases/latest) (filename: `injector`)
+
+## Usage
+To use the injector, you must have root privileges. You can run the program with the following command:
 ```
 sudo ./injector <lib_path> <pid>
 ```
-where `<lib_path>` is the path to the shared library you want to inject and `<pid>` is the process ID of the target process.<br><br>
+Where `<lib_path>` is the path to the shared library you want to inject and `<pid>` is the process ID of the target process.<br><br>
 example:
 ```
 sudo ./inject /path/to/libexample.so 1234
 ```
-the injector will attach to the process, call `dlopen` with the specified library path, and detach from the process. if successful, it will print `[*] library injected successfully!` to the console.
+The injector will attach to the process, call `dlopen` with the specified library path, and detach from the process. If successful, it will print `[*] library injected successfully!` to the console.
 
-## docs
-the documentation of this tool is [here](https://github.com/meth1337/soinjector/wiki).
+## Docs
+The documentation of this tool is [here](https://github.com/meth1337/soinjector/wiki).
 
   ---
   ```
@@ -36,4 +39,4 @@ the documentation of this tool is [here](https://github.com/meth1337/soinjector/
   ```
 
 
-### my telegram [channel](https://t.me/quasquaswexinvoke)<3
+### My Telegram [channel](https://t.me/quasquaswexinvoke)<3
