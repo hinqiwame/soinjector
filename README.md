@@ -23,19 +23,18 @@ example:
 ```
 sudo ./inject /path/to/libexample.so 1234
 ```
-The injector will attach to the process, call `dlopen` with the specified library path, and detach from the process. If successful, it will print `[*] library injected successfully!` to the console.
+The injector will attach to the process, call `dlopen` with the specified library path, and detach from the process. If successful, it will print `[*] Library injected successfully!` to the console.
 
 ## Docs
 The documentation of this tool is [here](https://github.com/meth1337/soinjector/wiki).
 
   ---
   ```
-  [x0@0x0-80tx ~]$ sudo ./injector example.so 1076
-  [sudo] password for x0:
-  [*] dlopen memory address: 0x7f56ae394700
-  [*] found library path: libexample.so
-  [*] library injected successfully!
-  [*] resumed the target process: 1076
+  [x0@0x0-80tx ~]$ sudo ./injector libexample.so 1952
+  [*] Dlopen memory address: 0x7fa06a5b0700
+  [*] Found library path: libexample.so
+  [*] Library injected successfully!
+  [*] Resumed the target process: 1952
   ```
 
 
