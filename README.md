@@ -36,6 +36,3 @@ The documentation of this tool is [here](https://github.com/meth1337/soinjector/
   [*] Library injected successfully!
   [*] Resumed the target process: 1952
   ```
-
-
-### My Telegram [channel](https://t.me/quasquaswexinvoke)<3
