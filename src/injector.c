@@ -14,12 +14,14 @@
 #define RTLD_NEXT ((void *) -1l)
 
 // Better error handler
-void die(char* message) {
+void die(char* message) 
+{
     perror(message);
     exit(EXIT_FAILURE);
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv) 
+{
     // Sudo check!
     if (geteuid() != 0) {
         printf("[!] Please run this program as sudo!\n");
@@ -58,6 +60,7 @@ int main(int argc, char** argv) {
     if (dlopen_addr == NULL) {
         die("[!] Failed to locate dlopen function in target process");
     }
+
     printf("[*] Dlopen memory address: %p\n", dlopen_addr);
 
     // Allocate space in the target process for the path to the library
@@ -110,4 +113,3 @@ int main(int argc, char** argv) {
 
     return 0;
 }
-
