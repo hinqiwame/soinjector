@@ -1,5 +1,23 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/ptrace.h>
+#include <sys/wait.h>
+#include <sys/user.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <dlfcn.h>
+
+
+void error_popup(const gchar *message)
+{
+	GtkWidget *dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "%s", message);
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
+}
 
 void on_file_set(GtkFileChooserButton *filechooserbutton, gpointer user_data) 
 {
@@ -15,8 +33,13 @@ int inject(GtkApplication *widget, gpointer data)
 }
 
 int main(int argc, char *argv[]) 
-{
+{	
     gtk_init(&argc, &argv);
+
+	if (geteuid() != 0) {
+		error_popup("Please run this program as sudo!");
+		exit(EXIT_FAILURE);
+	}
 
     // Create the main window
     GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -38,7 +61,7 @@ int main(int argc, char *argv[])
 	g_signal_connect(injectbutton, "clicked", G_CALLBACK(inject), NULL);
 
     // Create a vertical box and add the file chooser button and label to it
-    GtkWidget *vbox = gtk_vbox_new(FALSE, 6);
+    GtkWidget *vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 	gtk_box_pack_start(GTK_BOX(vbox), solabel, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), filechooserbutton, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), pidlabel, FALSE, FALSE, 0);
