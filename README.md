@@ -27,7 +27,7 @@ sudo ./inject /path/to/libexample.so 1234
 The injector will attach to the process, call `dlopen` with the specified library path, and detach from the process. If successful, it will print `[*] Library injected successfully!` to the console.
 
 ### GUI (BETA)
-[](img/gui.jpg)
+![gui](img/gui.jpg)
 
 ## Docs
 The documentation of this tool is [here](https://github.com/meth1337/soinjector/wiki).
