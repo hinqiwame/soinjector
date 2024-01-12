@@ -14,6 +14,7 @@ This is a simple Linux library injector that allows you to inject a shared libra
 You can get the latest stable binary from [here](https://github.com/meth1337/soinjector/releases/latest) (filename: `injector`)
 
 ## Usage
+### CLI
 To use the injector, you must have root privileges. You can run the program with the following command:
 ```
 sudo ./injector <lib_path> <pid>
@@ -24,6 +25,9 @@ Example:
 sudo ./inject /path/to/libexample.so 1234
 ```
 The injector will attach to the process, call `dlopen` with the specified library path, and detach from the process. If successful, it will print `[*] Library injected successfully!` to the console.
+
+### GUI (BETA)
+[](img/gui.jpg)
 
 ## Docs
 The documentation of this tool is [here](https://github.com/meth1337/soinjector/wiki).
