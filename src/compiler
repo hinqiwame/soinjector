@@ -1,3 +1,10 @@
 #!/bin/bash
+echo "[*] Compiling soinjector CLI..."
 gcc -o injector injector.c -ldl -Wall
-mv injector build 
+mv injector build
+echo "[+] Done."
+echo "[*] Compiling soinjector GUI..."
+gcc -o injector-gui injector-gui.c `pkg-config --cflags --libs gtk+-3.0`
+mv injector-gui build
+echo "[+] Done."
+echo "[*] Binaries located in build/ directory."
