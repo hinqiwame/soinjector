@@ -8,7 +8,7 @@
   </div>
 </p>
 
-This is a simple Linux library injector that allows you to inject a shared library into a running process. It uses `ptrace` to attach to the target process, call `dlopen` with the specified library path, and detach from the process.
+This is a simple Linux library injector that allows you to inject a shared library into a running process. It uses `ptrace` to attach to the target process, call `dlopen` with the specified library path, and detach from the process. Uses GTK 3 for GUI.
 
 ## Download
 You can get the latest stable binary from [here](https://github.com/meth1337/soinjector/releases/latest) (filename: `injector`)
