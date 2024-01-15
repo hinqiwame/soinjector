@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
@@ -13,6 +14,8 @@ void error_popup(const gchar *message)
 
 void on_file_set(GtkFileChooserButton *filechooserbutton, gpointer user_data) 
 {
+	const gchar *selected_file_path = NULL;
+	selected_file_path = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(filechooserbutton));
     const gchar *selected_file = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(filechooserbutton));
     // g_print("Selected File: %s\n", selected_file);
 }
@@ -61,14 +64,26 @@ void list_processes(GtkComboBoxText *process_combobox)
     closedir(dir);
 }
 
-void inject(GtkWidget *widget, gpointer data) 
+void inject(GtkWidget *widget, gpointer data, const gchar *file_path) 
 {
     // Retrieve the selected PID from the combo box
     GtkWidget *process_combobox = GTK_WIDGET(data);
     const gchar *selected_pid = gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(process_combobox));
-
     if (selected_pid != NULL) {
-        printf("Injecting into process with PID: %s\n", selected_pid);
+		const char *determiner = " - ";
+		const char *actual_pid = strtok(selected_pid, determiner);
+		const char *quoted_file_path = g_shell_quote(file_path);
+        printf("Injecting %s into process with PID %s...\n", quoted_file_path, actual_pid);
+		const char *command = g_strdup_printf("./injector %s %s", file_path, quoted_file_path);
+		int result = system(command);
+
+		if (result == -1) {
+			error_popup("Either an injector issue or injector binary was not found.\nYou can get the latest binary of injector here: https://github.com/hinqiwame/soinjector/releases/latest");
+		} else {
+			printf("Done.\n");
+		}
+
+		g_free((gpointer)command);
         g_free((gpointer)selected_pid);
     } else {
         error_popup("Please select a process to inject into!");
@@ -106,7 +121,7 @@ int main(int argc, char *argv[])
 
     // Create an inject button
     GtkWidget *inject_button = gtk_button_new_with_label("Inject!");
-    g_signal_connect(inject_button, "clicked", G_CALLBACK(inject), process_combobox);
+	g_signal_connect(inject_button, "clicked", G_CALLBACK(inject), process_combobox); 
 
     // Create a vertical box and add the file chooser button, label, process combo box, and inject button to it
     GtkWidget *vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
