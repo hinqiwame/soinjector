@@ -13,6 +13,18 @@ This is a simple Linux library injector that allows you to inject a shared libra
 ## Download
 You can get the latest stable binary from [here](https://github.com/meth1337/soinjector/releases/latest) (filename: `injector`)
 
+## Building
+To compile the injector, navigate to the `src/build` directory and run these commands to compile using CMake:
+```
+cmake ..
+make
+```
+Alternatively, you can compile using the included `compiler` binary to compile the program for you.
+```
+chmod +x compiler
+./compiler
+```
+
 ## Usage
 ### CLI
 To use the injector, you must have root privileges. You can run the program with the following command:
