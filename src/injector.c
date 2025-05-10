@@ -14,23 +14,26 @@
 #define RTLD_NEXT ((void *) -1l)
 
 // Better error handler
-void die(char* message) 
+void die(char* message, int sp_err) // sp_err for special errors 
 {
+    if (sp_err == 1)
+    {
+	    perror("Usage: %s <lib_path> <pid>\n", argv[0]);
+	    exit(EXIT_FAILURE);
+    }
     perror(message);
     exit(EXIT_FAILURE);
 }
 
 int main(int argc, char** argv) 
 {
-    // Sudo check!
+    // Root check!
     if (geteuid() != 0) {
-        printf("[!] Please run this program as sudo!\n");
-        exit(EXIT_FAILURE);
+        die("[!] Please run this program with root privileges (by using the sudo command or directly running as root)\n");
     }
 
     if (argc < 3) {
-        printf("Usage: %s <lib_path> <pid>\n", argv[0]);
-        exit(EXIT_FAILURE);
+        die(NULL, 1);
     }
 
     char lib_path[BUF_SIZE];
