@@ -1,10 +1,42 @@
 #!/bin/bash
-echo "[*] Compiling soinjector CLI..."
-gcc -o injector injector.c -ldl -Wall
-mv injector build
-echo "[+] Done."
-echo "[*] Compiling soinjector GUI..."
-gcc -o injector-gui injector-gui.c `pkg-config --cflags --libs gtk+-3.0`
-mv injector-gui build
-echo "[+] Done."
-echo "[*] Binaries located in build/ directory."
+
+echo "Started soinjector Compiling Process"
+read -p "Would you like to make soinjector into a command (Y/N)? " cmd_qa
+lcase_cmd_qa=$(echo "$cmd_qa" | tr 'A-Z' 'a-z')
+
+if [ "$lcase_cmd_qa" = "y" ]; then
+  read -p "Please choose a name for the command (used as prefix, CLI will be 'name', GUI will be 'name-gui'): " cmd_n
+
+  if [ -n "$cmd_n" ]; then
+    cmd_n_gui="${cmd_n}-gui"
+
+    echo "[*] Compiling soinjector CLI..."
+    gcc -o "$cmd_n" injector.c -Wall -march=native -ffunction-sections -fdata-sections -fomit-frame-pointer -flto -Wl,--gc-sections -ldl
+    echo "[+] Done."
+
+    echo "[*] Compiling soinjector GUI..."
+    gcc -o "$cmd_n_gui" injector-gui.c -Wall -march=native -ffunction-sections -fdata-sections -fomit-frame-pointer -flto -Wl,--gc-sections -ldl $(pkg-config --cflags --libs gtk+-3.0)
+    echo "[+] Done."
+
+    sudo mkdir -p /usr/local/soinjector
+    sudo mv "$cmd_n" "$cmd_n_gui" /usr/local/soinjector/
+
+    # Add to PATH if not already added
+    if ! grep -Fxq 'export PATH=$PATH:/usr/local/soinjector' ~/.bashrc; then
+      echo 'export PATH=$PATH:/usr/local/soinjector' >> ~/.bashrc
+      echo "[+] Added /usr/local/soinjector to PATH in ~/.bashrc"
+    fi
+
+    echo "[+] Installation complete. Restart your terminal or run 'source ~/.bashrc' to use the new command."
+  else
+    echo "[!] Command name cannot be empty."
+  fi
+else
+  echo "[*] Building soinjector CLI..."
+  gcc -o injector injector.c -Wall -march=native -ffunction-sections -fdata-sections -fomit-frame-pointer -flto -Wl,--gc-sections -ldl
+  echo "[+] Done."
+
+  echo "[*] Building soinjector GUI..."
+  gcc -o injector-gui injector-gui.c -Wall -march=native -ffunction-sections -fdata-sections -fomit-frame-pointer -flto -Wl,--gc-sections -ldl $(pkg-config --cflags --libs gtk+-3.0)
+  echo "[+] Done Building All..."
+fi
